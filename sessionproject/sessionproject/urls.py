@@ -1,5 +1,5 @@
 """
-URL configuration for sessions project.
+URL configuration for sessionproject project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
@@ -25,3 +25,4 @@ urlpatterns = [
     path('qual/', views.qual_view),
     path('result/', views.res_view),
 ]
+

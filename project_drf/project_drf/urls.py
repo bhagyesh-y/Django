@@ -1,5 +1,5 @@
 """
-URL configuration for sessions project.
+URL configuration for project_drf project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
@@ -15,13 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from testapp import views
+from django.urls import path , include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.name_view),
-    path('age/', views.age_view),
-    path('qual/', views.qual_view),
-    path('result/', views.res_view),
+    path("students/",include('students.urls')),
+    
+    # API endpoints
+    path('api/v1/',include('api.urls'))
 ]

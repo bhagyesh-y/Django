@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 def name_view(request):
-    return render (request, 'testapp/name.html')
+    return render (request , 'testapp/name.html')
 
 def age_view(request):
     name = request.GET['uname']
