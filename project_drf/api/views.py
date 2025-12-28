@@ -1,14 +1,20 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from students.models import Student ,Teacher
-from .serializers import StudentSerializer,EmployeeSerializer
+from .serializers import StudentSerializer,EmployeeSerializer,FriendSerializer,CricketerSerializer
 from rest_framework.response import  Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from employees.models import Employee
+from friends.models import Friend
+from cricketers.models import Cricketer
+from students.models import Student ,Teacher
 from django.http import Http404
+from rest_framework import mixins , generics
 
+
+
+# manual way of converting query set to a list
 def teachersview(request):
     teachers= Teacher.objects.all()
     teachers_list=list(teachers.values())
@@ -53,7 +59,7 @@ def studentDetailview(request,pk):
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST ) 
     elif request.method == 'DELETE':
      student.delete()
-     return Response(status=status.HTTP_204_NO_CONTENT)     
+    return Response(status=status.HTTP_204_NO_CONTENT)     
  
 #   below are class based views 
 class Employees(APIView):
@@ -75,10 +81,12 @@ class EmployeeDetail(APIView):
             return Employee.objects.get(pk=pk)
         except Employee.DoesNotExist:
           raise Http404
+      
     def get(self,request,pk):
            employee=self.get_object(pk)
            serializer=EmployeeSerializer(employee)
            return Response(serializer.data,status=status.HTTP_200_OK)
+       
     def put(self,request,pk):
         employee = self.get_object(pk)
         serializer = EmployeeSerializer(employee,data=request.data)
@@ -86,10 +94,54 @@ class EmployeeDetail(APIView):
            serializer.save()
            return Response(serializer.data,status=status.HTTP_200_OK)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
     def delete(self,request,pk):
         employee = self.get_object(pk)
         employee.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+# below used mixins , which reduces the lines of code ridiculously for crud operations
+
+class Friends(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+    
+    queryset = Friend.objects.all()
+    serializer_class = FriendSerializer
+    
+    def get(self,request):
+        return self.list(request)
+    
+    def post(self,request):
+        return self.create(request)
+    
+    
+class FriendDetail(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,generics.DestroyAPIView,generics.GenericAPIView):
+    
+    queryset = Friend.objects.all()
+    serializer_class = FriendSerializer
+    
+    def get(self,request,pk):
+        return self.retrieve(request,pk)
+    
+    def put(self,request,pk):
+        return self.update(request,pk)
+    
+    def delete(self,request,pk):
+        return self.destroy(request,pk)
+    
+#  Generics for multiple objects 
+    
+class Cricketers(generics.ListCreateAPIView):
+    queryset = Cricketer.objects.all()
+    serializer_class = CricketerSerializer
+    
+    #  Generics 
+class CricketerDetail(generics.RetrieveUpdateDestroyAPIView):  
+    queryset = Cricketer.objects.all()
+    serializer_class = CricketerSerializer
+    lookup_field = 'pk'
+     
+    
+
         
         
     
