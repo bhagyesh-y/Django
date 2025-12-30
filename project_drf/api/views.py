@@ -183,6 +183,8 @@ class FruitViewset(viewsets.ViewSet):
 class HeroViewset(viewsets.ModelViewSet):
     queryset=Hero.objects.all()
     serializer_class=HeroSerializer
+    pagination_class=CustomPagination # this is custom pagination class used
+    filterset_fields=['power']
         
 # Nested serializers starts here
 class BlogsView(generics.ListCreateAPIView):
@@ -193,7 +195,7 @@ class BlogsView(generics.ListCreateAPIView):
 class CommentsView(generics.ListCreateAPIView):
         queryset=Comment.objects.all()
         serializer_class = CommentSerializer
-        pagination_class=CustomPagination
+        
 
 class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Blog.objects.all()
