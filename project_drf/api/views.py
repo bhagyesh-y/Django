@@ -13,6 +13,7 @@ from students.models import Student ,Teacher
 from fruits.models import Fruit
 from heroes.models import Hero
 from blogs.models import Blog,Comment
+from .paginations import CustomPagination
 from django.http import Http404
 from rest_framework import mixins , generics , viewsets
 
@@ -192,6 +193,7 @@ class BlogsView(generics.ListCreateAPIView):
 class CommentsView(generics.ListCreateAPIView):
         queryset=Comment.objects.all()
         serializer_class = CommentSerializer
+        pagination_class=CustomPagination
 
 class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Blog.objects.all()
