@@ -5,6 +5,7 @@ from friends.models import Friend
 from cricketers.models import Cricketer
 from fruits.models import Fruit
 from heroes.models import Hero
+from flowers.models import Flower
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -40,4 +41,9 @@ class FruitSerializer(serializers.ModelSerializer):
 class HeroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hero
+        fields = "__all__"        
+        
+class FlowerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Flower
         fields = "__all__"        

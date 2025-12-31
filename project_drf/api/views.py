@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import JsonResponse
-from .serializers import StudentSerializer,EmployeeSerializer,FriendSerializer,CricketerSerializer,FruitSerializer,HeroSerializer
+from .serializers import StudentSerializer,EmployeeSerializer,FriendSerializer,CricketerSerializer,FruitSerializer,HeroSerializer,FlowerSerializer
 from blogs.serializers import BlogSerializer,CommentSerializer
 from rest_framework.response import  Response
 from rest_framework import status
@@ -13,10 +13,13 @@ from students.models import Student ,Teacher
 from fruits.models import Fruit
 from heroes.models import Hero
 from blogs.models import Blog,Comment
+from flowers.models import Flower
 from .paginations import CustomPagination
 from heroes.filters import HeroFilter
+from flowers.filters import FlowerFilter
 from django.http import Http404
 from rest_framework import mixins , generics , viewsets
+from rest_framework.filters import SearchFilter,OrderingFilter
 
 
 
@@ -188,10 +191,21 @@ class HeroViewset(viewsets.ModelViewSet):
    # filterset_fields=['power'] # this is filter which filters data by provided parameter 
     filterset_class=HeroFilter
         
+class FlowerView(viewsets.ModelViewSet):
+    queryset=Flower.objects.all()
+    serializer_class=FlowerSerializer
+    pagination_class =CustomPagination
+    filterset_class = FlowerFilter
+           
+        
+        
 # Nested serializers starts here
 class BlogsView(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+    filter_backends=[SearchFilter,OrderingFilter]
+    search_fields = ['blog_title','blog_body']
+    ordering_fields=['id','blog_title']
     
     
 class CommentsView(generics.ListCreateAPIView):

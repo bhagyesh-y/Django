@@ -5,6 +5,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register('fruits',views.FruitViewset,basename='fruit')
 router.register('heroes',views.HeroViewset,basename='hero')
+router.register('flowers',views.FlowerView,basename='flower')
 
 urlpatterns = [
     path('students/',views.studentsview),

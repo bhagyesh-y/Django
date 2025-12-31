@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'fruits',
     'heroes',
     'blogs',
-    'django_filters'
+    'django_filters',
+    'flowers',
     ]
 
 MIDDLEWARE = [
@@ -141,7 +142,8 @@ REST_FRAMEWORK={
   'PAGE_SIZE':4,
   # above 2 lines are for pagination 
   # Below is filter class 
-  'DEFAULT_FILTER_BACKENDS':['django_filters.rest_framework.DjangoFilterBackend']
+  'DEFAULT_FILTER_BACKENDS':['django_filters.rest_framework.DjangoFilterBackend'],
+  'SEARCH_PARAM':'q'
   }
 
 # custom pagination
