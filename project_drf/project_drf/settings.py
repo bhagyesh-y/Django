@@ -143,7 +143,8 @@ REST_FRAMEWORK={
   # above 2 lines are for pagination 
   # Below is filter class 
   'DEFAULT_FILTER_BACKENDS':['django_filters.rest_framework.DjangoFilterBackend'],
-  'SEARCH_PARAM':'q'
+  'SEARCH_PARAM':'q',
+  'ORDERING_PARAM':'order-by',
   }
 
 # custom pagination
